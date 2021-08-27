@@ -1,31 +1,60 @@
 import React, { useEffect, useState } from "react";
 import { API_URL } from '../../env';
 import styles from './DetailOrder.module.scss';
+import { useParams } from 'react-router-dom'
+
+type ParamsProps = {
+  id: string;
+}
+
+interface Iuser {
+  name: string;
+  items: {
+    name: string;
+
+  }
+}
+
 
 export function DetailOrder() {
+  const [users, setUsers] = useState<Iuser>(Object);
+  const { id } = useParams<ParamsProps>()
 
-  function handleData() {
-    fetch(`${API_URL}/293140.json`)
+  // function handleData() {
+  //   fetch(`${API_URL}/${id}.json`)
+  //   .then(res => res.json())
+  //   .then(
+  //     (data) => {
+  //      console.log('Resultado: ', data);
+  //      setUser(data)
+  //      setLoading(true)
+  //     },
+  //     (err) => {
+  //       console.log('Erro ao conectar com a api. ', err)
+  //     }
+  //   )
+  // }
+
+  useEffect(() => {
+    fetch(`${API_URL}/${id}.json`)
     .then(res => res.json())
     .then(
       (data) => {
        console.log('Resultado: ', data);
+       setUsers(data)
       },
       (err) => {
-        console.log('Erro', err)
+        console.log('Erro ao conectar com a api. ', err)
       }
     )
-  }
-
-  useEffect(() => {
-    handleData();
-  }, []);
+  }, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={styles.container}>
-
+    {console.log('Resultado2', users.items)}
+      
       <div className={styles.containerName}>
-        <h2>OLÁ, MARIA!</h2>
+        <h2>OLÁ, {users.name}</h2>
         <h2>SAIR</h2>
       </div>
 
@@ -38,6 +67,8 @@ export function DetailOrder() {
         <div className={styles.resumeOrder}>
           <span>RESUMO DA COMPRA</span>
           <div className={styles.divider} />
+
+          
 
           <div className={styles.containerOrderItens}>
             <span>1x Booster 30ml</span>

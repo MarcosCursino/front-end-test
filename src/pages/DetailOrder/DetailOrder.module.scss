@@ -1,19 +1,19 @@
 .container {
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  max-width: 860px;
+  margin: 0 auto;
   padding: 0px 20px 10px 20px;
 }
+
 .containerName {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 28px;
   margin-top: 5px;
+  text-transform: uppercase;
  
-  h2:nth-child(2) {
-    text-decoration: underline;
-    cursor: pointer;
-  }
 }
 
 .containerItens {
@@ -52,10 +52,9 @@
 
 .containerOrderItens {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding-right: 30px;
+  flex-direction: column;
+  align-items: flex-start;
+  
 
   span:nth-child(2) {
     font-size: 16px;
@@ -93,7 +92,6 @@
   margin: 10px 0;
 
   div {
-    background-color: #424;
     width: 45px;
     height: 45px;
     border-radius: 50%;
@@ -103,6 +101,28 @@
   strong {
     // background-color: #40a;
     width: 230px;
+  }
+
+  
+}
+
+.inactive {
+  strong {
+    color: #d3d3d3;
+  }
+
+  div {
+    background-color: #d3d3d3;
+  }
+}
+
+.active {
+  strong {
+    color: #000000;
+  }
+
+  div {
+    background-color: #1a1;
   }
 }
 

@@ -1,152 +1,163 @@
 import React, { useEffect, useState } from "react";
 import { API_URL } from '../../env';
 import styles from './DetailOrder.module.scss';
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import Testimonial03 from '../../assets/clear.svg'
+  
+
+type Props ={};
 
 type ParamsProps = {
   id: string;
 }
 
-interface Iuser {
+type OrderProps  = {
   name: string;
-  items: {
-    name: string;
-
+  id: number;
+  freight: {
+    price: string
+    from: number;
+    to: number;
+  }
+  payment_method : string;
+  total: string;
+  status: string;
+  items: CartItemsProps[];
+  address: {
+    street: string;
+    number: number;
+    city: string;
+    state: string;
+    postcode: string;
   }
 }
 
+type CartItemsProps = {
+  name: string;
+  qty: number;
+  price: number;
+}
 
-export function DetailOrder() {
-  const [users, setUsers] = useState<Iuser>(Object);
+
+export function DetailOrder(props: Props) {
+  const [users, setUsers] = useState<OrderProps[]>([]);
   const { id } = useParams<ParamsProps>()
 
-  // function handleData() {
-  //   fetch(`${API_URL}/${id}.json`)
-  //   .then(res => res.json())
-  //   .then(
-  //     (data) => {
-  //      console.log('Resultado: ', data);
-  //      setUser(data)
-  //      setLoading(true)
-  //     },
-  //     (err) => {
-  //       console.log('Erro ao conectar com a api. ', err)
-  //     }
-  //   )
-  // }
 
   useEffect(() => {
     fetch(`${API_URL}/${id}.json`)
-    .then(res => res.json())
-    .then(
-      (data) => {
-       console.log('Resultado: ', data);
-       setUsers(data)
-      },
-      (err) => {
-        console.log('Erro ao conectar com a api. ', err)
-      }
-    )
+    .then(response => response.json())
+    .then(data => {
+      console.log('data', data)
+      setUsers([data])
+    })
   }, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className={styles.container}>
-    {console.log('Resultado2', users.items)}
+    <>
+    {users.map((item) => (
+      
+    
+    <div className={styles.container} key={item.id}>
+    
       
       <div className={styles.containerName}>
-        <h2>OLÁ, {users.name}</h2>
-        <h2>SAIR</h2>
+        <h2>OLÁ, {item.name}</h2>
+        <Link to="/" >
+          <img 
+            src={Testimonial03} 
+            alt="Sair" 
+            width="30" 
+            height="30"
+          />
+        </Link>
       </div>
 
       <section className={styles.containerItens}>
         <div className={styles.containerOrderNumber}>
           <strong>NÚMERO DO PEDIDO:</strong>
-          <span>234567876</span>
+          <span>{item.id}</span>
         </div>
 
         <div className={styles.resumeOrder}>
           <span>RESUMO DA COMPRA</span>
           <div className={styles.divider} />
 
-          
-
-          <div className={styles.containerOrderItens}>
-            <span>1x Booster 30ml</span>
-            <span>R$ 199,90</span>
+         {item.items.map((item) => (
+           <div className={styles.containerOrderItens} key={item.name}>
+            <span>{item.qty}x {item.name}</span>
+            <span>R$ {item.price}</span>
+            <div className={styles.divider} />
           </div>
-
-          <div className={styles.divider} />
-
-          <div className={styles.containerOrderItens}>
-            <span>1x Booster 30ml</span>
-            <span>R$ 199,90</span>
-          </div>
-          
-          <div className={styles.divider} />
+         ))}
         </div>
 
         <div className={styles.containerDelivery}>
 
           <div className={styles.containerInfo}>
             <span>Prazo de entrega</span>
-            <span>de 5 a 7 dias</span>
+            <span>de {item.freight.from} a {item.freight.to} dias</span>
           </div>
 
           <div className={styles.containerInfo}>
             <span>Frete</span>
-            <span>R$ 20,00</span>
+            <span>R$ {item.freight.price}</span>
           </div>
 
           <div className={styles.containerInfo}>
             <strong>Total</strong>
-            <strong>R$ 420,00</strong>
+            <strong>R$ {item.total}</strong>
           </div>
 
           <div className={styles.divider} />
         </div>
 
         <div className={styles.containerFollowUp}>
+          
           <strong>ACOMPANHE SEU PEDIDO</strong>
 
-          <div className={styles.followUpItem}>
+          
+
+          <div className={`${styles.followUpItem} ${item.status === "Aguardando pagamento" ? styles.active : styles.inactive}`}>
             <div></div>
             <strong>AGUARDANDO PAGAMENTO</strong>
           </div>
 
-          <div className={styles.followUpItem}>
+            <div className={`${styles.followUpItem} ${item.status === "Pagamento aprovado" ? styles.active : styles.inactive}`}>
             <div></div>
-            <strong>CONFIRMAÇÃO DE PAGAMENTO</strong>
+            <strong>PAGAMENTO APROVADO</strong>
           </div>
 
-          <div className={styles.followUpItem}>
+          <div className={`${styles.followUpItem} ${item.status === "Pedido em separação" ? styles.active : styles.inactive}`}>
             <div></div>
             <strong>PEDIDO EM SEPAÇÃO</strong>
           </div>
 
-          <div className={styles.followUpItem}>
+          <div className={`${styles.followUpItem} ${item.status === "Pedido em transporte" ? styles.active : styles.inactive}`}>
             <div></div>
             <strong>PEDIDO EM TRANSPORTE</strong>
           </div>
 
-          <div className={styles.followUpItem}>
+          <div className={`${styles.followUpItem} ${item.status === "Pedido entregue" ? styles.active : styles.inactive}`}>
             <div></div>
             <strong>PEDIDO ENTREGUE</strong>
-          </div>
-
+          </div>  
         </div>
 
         <div className={styles.containerDeliver}>
           <strong>ENTREGAR EM:</strong>
-          <span>Av. Mofarrej, 825 - Galpão 5 - Vl. Leopodina</span>
-          <span>São Paulo  - SP  - 03342-010</span>
+          <span>{item.address.street}, {item.address.number}</span>
+          <span>{item.address.city} - {item.address.state}  - {item.address.postcode}</span>
         </div>
         
         <div className={`${styles.containerDeliver} ${styles.containeterPagament}`}>
           <strong>FORMA DE PAGAMENTO</strong>
-          <span>Cartão de crédito</span>
+          <span>{item.payment_method}</span>
         </div>
         
       </section>
     </div>
+    ))}
+    </>
   );
 }

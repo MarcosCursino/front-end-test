@@ -3,7 +3,8 @@
   height: 100%;
   max-width: 860px;
   margin: 0 auto;
-  padding: 0px 20px 10px 20px;
+  padding: 10px 20px;
+  background-color: #fff;
 }
 
 .containerName {
@@ -11,19 +12,16 @@
   align-items: center;
   justify-content: space-between;
   height: 28px;
-  margin-top: 5px;
   text-transform: uppercase;
- 
+  padding-top: 15px;
 }
 
 .containerItens {
-  // background-color: #2443;
   display: flex;
   flex-direction: column;
 }
 
 .containerOrderNumber {
-  // background-color: #534;
   display: flex;
   flex-direction: column;
   align-items: flex-start; 
@@ -43,7 +41,6 @@
 }
 
 .resumeOrder {
-  // background-color: #434;
   display: flex;
   flex-direction: column;
 
@@ -58,17 +55,16 @@
 
   span:nth-child(2) {
     font-size: 16px;
+    color:#776b6b;
   }
 }
 
 .containerDelivery {
-  // background-color: #f1a;
   display: flex;
   flex-direction: column;
 }
 
 .containerInfo {
-  // background-color: #434;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -78,16 +74,19 @@
 }
 
 .containerFollowUp {
-  margin-top: 25px;
   display: flex;
   flex-direction: column;
-
+  margin-top: 12px;
   font-size: 18px;
+
+  strong {
+    margin-bottom: 12px;
+  }
 }
 
 .followUpItem {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content:flex-start;
   margin: 10px 0;
 
@@ -97,13 +96,6 @@
     border-radius: 50%;
     margin-right: 10px;
   }
-
-  strong {
-    // background-color: #40a;
-    width: 230px;
-  }
-
-  
 }
 
 .inactive {
@@ -118,11 +110,11 @@
 
 .active {
   strong {
-    color: #000000;
+    color: #000;
   }
 
   div {
-    background-color: #1a1;
+    background-color: #000;
   }
 }
 
@@ -143,4 +135,3 @@
 .containeterPagament{
   margin: 0 0  20px 0;
 }
-
